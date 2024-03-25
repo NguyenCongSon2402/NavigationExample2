@@ -1,24 +1,21 @@
 package com.example.navigationexample
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.navigationexample.databinding.FragmentExampleBinding
+import com.example.navigationexample.ui.base.BaseFragment
 
 
-class SearchFragment : Fragment() {
+class SearchFragment : BaseFragment<FragmentExampleBinding>(bindingInflater =FragmentExampleBinding::inflate ) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initView() {
+        Log.e("log", "...SUCCESS... }")
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_example, container, false)
-    }
+
 
 }

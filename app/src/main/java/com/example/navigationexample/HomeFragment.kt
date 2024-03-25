@@ -1,6 +1,7 @@
 package com.example.navigationexample
 
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,6 +22,8 @@ class HomeFragment :
     private val homeViewModel: HomeViewModel by viewModels()
 
     override fun initView() {
+        getData()
+        initObserve()
         movieAdapter = MovieAdapter1()
         val layoutManager = LinearLayoutManager(requireActivity())
         binding.rcv.layoutManager = layoutManager
@@ -35,7 +38,7 @@ class HomeFragment :
 
     }
 
-    override fun getData() {
+     private fun getData() {
         homeViewModel.getAllMovie()
     }
 
@@ -45,19 +48,22 @@ class HomeFragment :
         findNavController().navigate(action)
     }
 
-    override fun initObserve() {
+     private fun initObserve() {
         homeViewModel.stateListMovie.observe(viewLifecycleOwner) {
             when (it.status) {
                 ResultData.Status.LOADING -> {
-                    Log.e("log", "...Loading...")
+                    binding.loading.visibility=View.VISIBLE
                 }
 
                 ResultData.Status.FAILED -> {
                     Toast.makeText(requireActivity(), "Error:${it.message}", Toast.LENGTH_SHORT)
                         .show()
+                    binding.loading.visibility=View.GONE
+
                 }
 
                 ResultData.Status.SUCCESS -> {
+                    binding.loading.visibility=View.GONE
                     val listMovie = it.data!!.data // ArrayList<Character>
                     movieAdapter.submitList(listMovie?.items)
                     Log.e("log", "...SUCCESS... ${listMovie.toString()}")
